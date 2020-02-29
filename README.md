@@ -1,2 +1,1 @@
 # Minor-II
-Hello
