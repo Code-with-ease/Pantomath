@@ -40,7 +40,7 @@ def get_tweets():
         # Printing the tweets 
         return jsonify(tweets=tmp[0:3])
 
-@app.route('/timeline',methods=['GET','POST'])
+@app.route('/timeline',methods=['GET'])
 def get_timeline(): 
         username=request.args.get('username')
         # Authorization to consumer key and consumer secret 
@@ -54,23 +54,30 @@ def get_timeline():
   
         # 200 tweets to be extracted 
         number_of_tweets=200
-        tweets = api.user_timeline(screen_name=username,count = number_of_tweets,exclude_replies=False,tweet_mode="extended")
-        for tweet in tweets:
-                print("\n",tweet.full_text)
         
-        # create array of tweet information: username,  
-        # tweet id, date/time, text 
+        tweets = api.user_timeline(screen_name = username,count=number_of_tweets, tweet_mode="extended")
+
         tweets_list = []
         for tweet in tweets:
-                tweet_json={"text":tweet.full_text,"id_str":tweet.id_str,"replies":tweet.in_reply_to_user_id_str,"time":tweet.created_at}
+                if(hasattr(tweet, 'retweeted_status')):
+                        text = tweet.retweeted_status.full_text
+                else:
+                        text = tweet.full_text
+                # replies = get_replies(username,tweet.id)
+                tweet_json={
+                        "text":text,
+                        "id_str":tweet.id_str,
+                        "in_reply_to_user_id_str":tweet.in_reply_to_user_id_str,
+                        "time":tweet.created_at
+                }
                 tweets_list.append(tweet_json)
         return jsonify(tweets=tweets_list)
 
-@app.route('/replies',methods=['GET','POST'])
+@app.route('/replies',methods=["GET"])
 def get_replies():
         username=request.args.get('username')
-        tweetid=request.args.get('tweetid')
-        print(tweetid)
+        tweetId=request.args.get('tweetId')
+
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret) 
   
         # Access to user's access key and access secret 
@@ -78,15 +85,21 @@ def get_replies():
   
         # Calling api 
         api = tweepy.API(auth) 
-
-        searched_tweets = api.search(q="to:${username}", sinceId = str(tweetid),rpp=100,count=1000,tweet_mode="extended")
+        searched_tweets = api.search(q='to:${username}',since_id=tweetId,rpp=100,count=1000, tweet_mode="extended")
         replies=[]
-        # print(searched_tweets)
-        for searched_tweet in searched_tweets:
-                print(searched_tweet.in_reply_to_status_id_str)
-                if(searched_tweet.in_reply_to_status_id_str==str(tweetid)):
-                        replies.append({"reply by":searched_tweet.user.screen_name,"text":searched_tweet.full_text,"created_at":searched_tweet.created_at}) 
+        for tweet in searched_tweets:
+                if(tweet.in_reply_to_user_id_str==tweetId):
+                        if(hasattr(tweet, 'retweeted_status')):
+                                text = tweet.retweeted_status.full_text
+                        else:
+                                text = tweet.full_text
+                        tweet_json={
+                        "text":text,
+                        "id_str":tweet.id_str,
+                        "in_reply_to_user_id_str":tweet.in_reply_to_user_id_str,
+                        "time":tweet.created_at}
+                        replies.append(tweet_json)
+        print(replies)
         return jsonify(replies=replies)
-
 if __name__ == '__main__':
   app.run(host='127.0.0.1', port=8000, debug=True)
