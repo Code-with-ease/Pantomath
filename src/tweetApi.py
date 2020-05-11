@@ -53,12 +53,13 @@ class TwitterFetcher:
                                 text = tweet.retweeted_status.full_text
                         else:
                                 text = tweet.full_text
-                        # replies = get_replies(username,tweet.id)
+                        replies = self.get_replies(username,tweet.id)
                         tweet_json={
                                 "text":text,
                                 "id_str":tweet.id_str,
                                 "in_reply_to_user_id_str":tweet.in_reply_to_user_id_str,
-                                "time":tweet.created_at
+                                "time":tweet.created_at,
+                                "replies":replies
                         }
                         tweets_list.append(tweet_json)
                 return tweets_list
