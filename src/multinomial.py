@@ -6,7 +6,7 @@
 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
+
 import datetime
 
 
@@ -174,62 +174,6 @@ mnb = MultiNomialNaiveBayesClassifier()
 # In[4]:
 
 
-from nltk.tokenize import RegexpTokenizer
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
-import re
-import nltk
-nltk.download('stopwords')
-nltk.download('wordnet')
-
-
-# In[5]:
-
-
-tokenizer = RegexpTokenizer(r'\w+')
-en_stopwords = set(stopwords.words('english'))
-lemmatizer = WordNetLemmatizer()
-
-
-# In[6]:
-
-def removeLinksAndHashtags(text):
-    word_list = text.split()
-    url_regex='http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
-    for word in word_list:
-        if(word[0] is"@" or word[0] is "#" or re.match(url_regex, word)):
-            word_list.remove(word)
-    return ' '.join(word_list)
-def removeInvalidChar(text):
-    otptstr= ""
-    text = removeLinksAndHashtags(text)
-    for i in text:
-        num = ord(i)
-        if (num >=0) :
-            if (num <= 127):
-                otptstr= otptstr + i
-    return otptstr
-def getStemmedReview(review):
-    review = str(review)
-    review = review.lower()
-    review = removeInvalidChar(review)
-    review = review.replace("<br /><br />"," ")
-    review = review.replace("<br /><br />"," ")
-#     print(review)
-    # Tokenize
-    tokens = tokenizer.tokenize(review)
-    new_tokens = [token for token in tokens if token not in en_stopwords]
-    stemmed_tokens = [lemmatizer.lemmatize(token) for token in new_tokens]
-    
-    cleaned_review = ' '.join(stemmed_tokens)
-    return cleaned_review
-def getStemmedDocument(X):
-    cleaned_list = []
-    for tweet in X:
-        cleaned_review = getStemmedReview(tweet)
-        cleaned_list.append(cleaned_review)
-    return cleaned_list
-
 
 # In[9]:
 
@@ -237,8 +181,8 @@ def getStemmedDocument(X):
 import datetime
 from sklearn.model_selection import train_test_split
 # df1 = pd.read_csv("mbti_1.csv")
-df = pd.read_csv("train_E6oV3lV.csv")
-dft = pd.read_csv("test_tweets_anuFYb8.csv")
+df = pd.read_csv("Datasets/train_E6oV3lV.csv")
+dft = pd.read_csv("Datasets/test_tweets_anuFYb8.csv")
 
 dfx = df["tweet"]
 dfy = df["label"]
@@ -250,7 +194,7 @@ Y = dfy.values
 X_test = dfx.values
 Y = dfy.values
 print(X_test)
-
+from src.tweetcleaner import *
 X = getStemmedDocument(X)
 start = datetime.datetime.now()
 like,diff1,diff2 = mnb.train(X,Y)
@@ -277,7 +221,7 @@ import pickle
 # In[12]:
 
 
-filename = 'multinomial_naive_bayes.sav'
+filename = 'Models/multinomial_naive_bayes.sav'
 pickle.dump(mnb, open(filename, 'wb'))
 
 
