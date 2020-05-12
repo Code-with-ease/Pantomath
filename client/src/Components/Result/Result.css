@@ -1,0 +1,40 @@
+.result_outer {
+  margin: 10%;
+  height: 70vh;
+}
+
+.result_info {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.result_hate_speech {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.result_personality {
+  width: 50%;
+  height: 100%;
+}
+
+.hate_speech_info_div {
+  display: flex;
+  flex-direction: column;
+}
+
+.pie_chart_div {
+  width: 100%;
+  margin-right: 30px;
+}
+
+span {
+  align-content: center;
+}
+
+.hate_speech_table_div {
+  margin-top: 5vh;
+}
