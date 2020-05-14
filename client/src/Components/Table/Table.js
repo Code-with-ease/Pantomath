@@ -47,6 +47,7 @@ const DataTable = ({ data }) => {
     }
   }, [data]);
 
+  console.log("Tweets recieved are ", data);
   return tdata.length ? (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">

@@ -14,7 +14,6 @@ const App = () => {
   });
 
   function getTwitterFromData(data) {
-    console.log(data);
     setFormData(data);
   }
   return formData.username == "" ? (
@@ -37,7 +36,7 @@ const App = () => {
       <div className="result_area">
         <Result endpoint={endpoint} data={formData} />
       </div>
-    </div>
+      </div>
   );
 };
 

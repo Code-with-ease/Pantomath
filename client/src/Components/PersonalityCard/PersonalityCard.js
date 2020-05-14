@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    maxWidth: 445,
     "margin-left": "30px"
   },
   media: {
@@ -20,10 +20,46 @@ const useStyles = makeStyles({
 
 const PersonalityCard = ({ type }) => {
   const classes = useStyles();
-  const information_type = {
-    INTJ: "INTROVERT , "
-  };
 
+  function get_full_form(type) {
+    var ans = "";
+    for (var i = 0; i < 4; i++) {
+      var text = type[i];
+
+      switch (text) {
+        case "I":
+          ans = ans + "INTROVERT";
+          break;
+        case "E":
+          ans = ans + "EXTROVERT";
+          break;
+        case "N":
+          ans = ans + "INTUTIVE";
+          break;
+        case "S":
+          ans = ans + "SENSING";
+          break;
+        case "T":
+          ans = ans + "THINKING";
+          break;
+        case "J":
+          ans = ans + "JUDGING";
+          break;
+        case "F":
+          ans = ans + "FEELING";
+          break;
+        case "P":
+          ans = ans + "PERCEIVING";
+          break;
+
+        default:
+          ans = ans + "";
+          break;
+      }
+      ans = ans + " ";
+    }
+    return ans;
+  }
   return (
     <Card className={classes.root}>
       <CardContent>
@@ -31,7 +67,7 @@ const PersonalityCard = ({ type }) => {
           {type}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
-          {"The Person is identified to be " + "BLA BLA BLA"}
+          {get_full_form(type)}
         </Typography>
       </CardContent>
     </Card>

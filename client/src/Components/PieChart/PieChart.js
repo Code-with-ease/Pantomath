@@ -19,23 +19,6 @@ const PieChart = ({ total_hate_speech, total_tweets }) => {
   const title = "Hello";
 
   useEffect(() => {
-    // const chartInfo={
-    //     title: "Users by device",
-    // chartData: {
-    //   datasets: [
-    //     {
-    //       hoverBorderColor: "#ffffff",
-    //       data: [68.3, 24.2, 7.5],
-    //       backgroundColor: [
-    //         "rgba(0,123,255,0.9)",
-    //         "rgba(0,123,255,0.5)",
-    //         "rgba(0,123,255,0.3)"
-    //       ]
-    //     }
-    //   ],
-    //   labels: ["Desktop", "Tablet", "Mobile"]
-    // }
-    // }
     const chartConfig = {
       type: "pie",
       data: {
@@ -66,46 +49,9 @@ const PieChart = ({ total_hate_speech, total_tweets }) => {
     };
 
     new Chart(canvasRef.current, chartConfig);
-  });
+  }, [total_hate_speech, total_tweets]);
 
   return <canvas height="120" ref={canvasRef} className="pie_chart" />;
 };
-
-// UsersByDevice.propTypes = {
-//   /**
-//    * The component's title.
-//    */
-//   title: PropTypes.string,
-//   /**
-//    * The chart config object.
-//    */
-//   chartConfig: PropTypes.object,
-//   /**
-//    * The Chart.js options.
-//    */
-//   chartOptions: PropTypes.object,
-//   /**
-//    * The chart data.
-//    */
-//   chartData: PropTypes.object
-// };
-
-// UsersByDevice.defaultProps = {
-//   title: "Users by device",
-//   chartData: {
-//     datasets: [
-//       {
-//         hoverBorderColor: "#ffffff",
-//         data: [68.3, 24.2, 7.5],
-//         backgroundColor: [
-//           "rgba(0,123,255,0.9)",
-//           "rgba(0,123,255,0.5)",
-//           "rgba(0,123,255,0.3)"
-//         ]
-//       }
-//     ],
-//     labels: ["Desktop", "Tablet", "Mobile"]
-//   }
-// };
 
 export default PieChart;

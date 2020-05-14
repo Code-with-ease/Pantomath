@@ -3,12 +3,20 @@
   <component name="ChangeListManager">
     <list default="true" id="6b45d806-f8b9-4a30-9b21-eba637cae715" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/personality_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/personality_detection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tweetApi.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tweetApi.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -108,9 +116,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="twitter" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Pantomath" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/twitter.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.server" />
+        <item itemvalue="Python.twitter" />
         <item itemvalue="Python.tweetApi" />
         <item itemvalue="Python.personality_detection" />
         <item itemvalue="Python.minor-2" />
@@ -143,22 +173,22 @@
       <screen x="0" y="33" width="1920" height="1047" />
     </state>
     <state x="586" y="87" width="738" height="936" key="#minor-2/0.33.1920.1047@0.33.1920.1047" timestamp="1586361860855" />
-    <state width="1892" height="251" key="GridCell.Tab.0.bottom" timestamp="1589299895137">
+    <state width="1892" height="251" key="GridCell.Tab.0.bottom" timestamp="1589467344786">
       <screen x="0" y="33" width="1920" height="1047" />
     </state>
-    <state width="1892" height="251" key="GridCell.Tab.0.bottom/0.33.1920.1047@0.33.1920.1047" timestamp="1589299895137" />
-    <state width="1892" height="251" key="GridCell.Tab.0.center" timestamp="1589299895135">
+    <state width="1892" height="251" key="GridCell.Tab.0.bottom/0.33.1920.1047@0.33.1920.1047" timestamp="1589467344786" />
+    <state width="1892" height="251" key="GridCell.Tab.0.center" timestamp="1589467344785">
       <screen x="0" y="33" width="1920" height="1047" />
     </state>
-    <state width="1892" height="251" key="GridCell.Tab.0.center/0.33.1920.1047@0.33.1920.1047" timestamp="1589299895135" />
-    <state width="1892" height="251" key="GridCell.Tab.0.left" timestamp="1589299895134">
+    <state width="1892" height="251" key="GridCell.Tab.0.center/0.33.1920.1047@0.33.1920.1047" timestamp="1589467344785" />
+    <state width="1892" height="251" key="GridCell.Tab.0.left" timestamp="1589467344784">
       <screen x="0" y="33" width="1920" height="1047" />
     </state>
-    <state width="1892" height="251" key="GridCell.Tab.0.left/0.33.1920.1047@0.33.1920.1047" timestamp="1589299895134" />
-    <state width="1892" height="251" key="GridCell.Tab.0.right" timestamp="1589299895136">
+    <state width="1892" height="251" key="GridCell.Tab.0.left/0.33.1920.1047@0.33.1920.1047" timestamp="1589467344784" />
+    <state width="1892" height="251" key="GridCell.Tab.0.right" timestamp="1589467344786">
       <screen x="0" y="33" width="1920" height="1047" />
     </state>
-    <state width="1892" height="251" key="GridCell.Tab.0.right/0.33.1920.1047@0.33.1920.1047" timestamp="1589299895136" />
+    <state width="1892" height="251" key="GridCell.Tab.0.right/0.33.1920.1047@0.33.1920.1047" timestamp="1589467344786" />
     <state x="300" y="129" key="SettingsEditor" timestamp="1589208928820">
       <screen x="0" y="33" width="1920" height="1047" />
     </state>

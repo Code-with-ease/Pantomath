@@ -95,8 +95,11 @@ class PersonalityPredictor():
             temp = re.sub("[^a-zA-Z]", " ", temp)
             temp = re.sub(' +', ' ', temp).lower()
 
-            temp = " ".join([self.lemmatiser.lemmatize(w) for w in temp.split(' ') if w not in self.cachedStopWords])
-
+            try:
+                temp = " ".join([self.lemmatiser.lemmatize(w) for w in temp.split(' ') if w not in self.cachedStopWords])
+            except AttributeError as e:
+                temp=" ".join([w for w in temp.split(' ') if w not in self.cachedStopWords])
+                print("Ok done")
             for t in self.unique_type_list:
               temp = temp.replace(t, "")
 

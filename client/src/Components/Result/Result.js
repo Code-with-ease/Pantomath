@@ -15,6 +15,11 @@ const Result = ({ endpoint, data }) => {
   const [hateSpeechTweets, setHateSpeechTweets] = useState([]);
   console.log("Ress ", fetched_data, hateSpeechTweets);
   useEffect(() => {
+    console.log("Hey -1");
+    setFetchedData({ hatespeechCount: -1, personality: "", tweets: [] });
+  }, [data]);
+
+  useEffect(() => {
     async function getTwitterAnalysis(data) {
       console.log("Twitter Data fetching for", data);
       if (data.username) {
@@ -34,8 +39,10 @@ const Result = ({ endpoint, data }) => {
       } else console.log("");
     }
 
-    getTwitterAnalysis(data);
-  }, [data]);
+    if (fetched_data.hatespeechCount == -1) {
+      getTwitterAnalysis(data);
+    }
+  }, [fetched_data, data]);
 
   return fetched_data.hatespeechCount == -1 ? (
     <div className="result_outer">
