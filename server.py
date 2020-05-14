@@ -4,16 +4,19 @@ import sys
 import numpy as np
 sys.path.append(".")
 from src.personality_detection import PersonalityPredictor
+from src.logisticregression import LogisticRegressionClassifier,CountVectorizerNGram
+# from src.countvectorizerngram import TfidfVectorizerNGram,Countvectorizerngram
 from src.tweetApi import TwitterFetcher
 from src.tweetcleaner import *
 import pickle
 
 twitter_fetcher=TwitterFetcher()
 personality_predictor=PersonalityPredictor()
+hate_speech_predictor=LogisticRegressionClassifier()
 app = Flask(__name__)
 CORS(app)
-model = pickle.load(open("Models/multinomial_naive_bayes.sav", 'rb'))
-
+hate_speech_predictor = pickle.load(open("Models/LogisticRegression.pickle", 'rb'))
+tf_idf = pickle.load(open("Models/CountVectorizerLR.pickle", 'rb'))
 def personality(tweets_arr_fetched):
     # tweets_arr_fetched=twitter_fetcher.get_tweets_arr(username)
     posts = ""
@@ -35,17 +38,14 @@ def checkuser():
     print(username,getReplies,getTweets)
     if(getTweets=="true" and getReplies=="false"):
         tweets_arr_fetched=twitter_fetcher.get_tweets_arr(username)
-        # tweets_arr_fetched=["Hey there i am a quick learner ","Het i am a rider","checkout my new car , its amaning","Look at this silly idiot","shut your mouth up","bitches never speak","Fuck you idiot","Hey you idiot ","I am a racist and i hate you","Suck off you idiot"]
-        print(tweets_arr_fetched)
-        cleaned_tweets = getStemmedDocument(tweets_arr_fetched)
-        print(cleaned_tweets)
-        # print("cleaned tweets:-\n",tw)
-        predictions=model.predictMany(cleaned_tweets)
+        
+        X_test_vec_tweets = tf_idf.transform(tweets_arr_fetched)
+        
+        predictions= hate_speech_predictor.predict(X_test_vec_tweets)
         print(predictions)
         tweet_list=[]
         for i in range(0,len(tweets_arr_fetched)):
             tweets = {}
-            tweets["type"]="tweet"
             tweets["text"]=tweets_arr_fetched[i]
             tweets["isHateSpeech"]=str(predictions[i])
             tweet_list.append(tweets)
@@ -56,25 +56,25 @@ def checkuser():
         }
         print(res)
     elif(getReplies=="true" and getTweets=="false"):
-        tweets_arr_fetched=[]
+        
         reply_arr_fetch=[]
         tweets_data = twitter_fetcher.get_timeline(username)
+        
         for tweet in tweets_data:
-            tweets_arr_fetched.append(tweet["text"])
             for reply in tweet["replies"]:
                 reply_arr_fetch.append(reply["text"])
-        cleaned_tweets = getStemmedDocument(reply_arr_fetch)
-        # print("cleaned tweets:-\n",tw)
-        predictions=model.predictMany(cleaned_tweets)
+        
+        X_test_vec_reply = tf_idf.transform(reply_arr_fetch)
+        predictions=hate_speech_predictor.predict(X_test_vec_reply)
         print(predictions)
-        tweet_list=[]
+        reply_list=[]
         for i in range(0,len(reply_arr_fetch)):
             tweets = {}
-            tweets["text"]=tweets_arr_fetched[i]
+            tweets["text"]=reply_arr_fetch[i]
             tweets["isHateSpeech"]=str(predictions[i])
             tweet_list.append(tweets)
         res={
-            "replies":tweet_list,
+            "replies":reply_list,
             "hatespeechCount":str(np.sum(np.array(predictions)==1)),
             "personality":personality(reply_arr_fetch)
         }
@@ -90,9 +90,10 @@ def checkuser():
                 r+=1
                 tweets_arr_fetch.append(reply["text"])
             print(c,r)
-        cleaned_tweets = getStemmedDocument(tweets_arr_fetch)
-        # print("cleaned tweets:-\n",tw)
-        predictions=model.predictMany(cleaned_tweets)
+        
+        X_test_vec_tweets = tf_idf.transform(tweets_arr_fetch)
+        
+        predictions= hate_speech_predictor.predict(X_test_vec_tweets)
         print(predictions)
         tweet_list=[]
         for i in range(0,len(tweets_arr_fetch)):
