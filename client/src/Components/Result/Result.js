@@ -34,8 +34,12 @@ const Result = ({ endpoint, data }) => {
           "&replies=" +
           data.replies;
         console.log(url);
-        const val = await Axios.get(url);
-        setFetchedData(val["data"]);
+        try {
+          const val = await Axios.get(url);
+          setFetchedData(val["data"]);
+        } catch (err) {
+          alert("SORRY!A problem occurred !");
+        }
       } else console.log("");
     }
 

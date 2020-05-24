@@ -4,14 +4,14 @@ import tweepy
 
 class TwitterFetcher:
         def __init__(self):
-                # self.consumer_key = "KSJYU03lzzH8ySUEKVaom1RBR"
-                # self.consumer_secret = "c9nBuKvwLjFNg3KconDt0jxmVWB6K85QsHunCYspNhAzTlmRel"
-                # self.access_key = "929607063889571841-OaRHMUWEkaF0KDozhSbVP21lbImuGkq"
-                # self.access_secret = "1rMYWNFPC7w8T3BEMLBGO64oHh0j3H1xuOAKWHA1150qE"
-                self.consumer_key = 'Q5kScvH4J2CE6d3w8xesxT1bm'
-                self.consumer_secret = 'mlGrcssaVjN9hQMi6wI6RqWKt2LcHAEyYCGh6WF8yq20qcTb8T'
-                self.access_key = '944440837739487232-KTdrvr4vARk7RTKvJkRPUF8I4VOvGIr'
-                self.access_secret = 'bfHE0jC5h3B7W3H18TxV7XsofG1xuB6zeINo2DxmZ8K1W'
+                self.consumer_key = "KSJYU03lzzH8ySUEKVaom1RBR"
+                self.consumer_secret = "c9nBuKvwLjFNg3KconDt0jxmVWB6K85QsHunCYspNhAzTlmRel"
+                self.access_key = "929607063889571841-OaRHMUWEkaF0KDozhSbVP21lbImuGkq"
+                self.access_secret = "1rMYWNFPC7w8T3BEMLBGO64oHh0j3H1xuOAKWHA1150qE"
+                # self.consumer_key = 'Q5kScvH4J2CE6d3w8xesxT1bm'
+                # self.consumer_secret = 'mlGrcssaVjN9hQMi6wI6RqWKt2LcHAEyYCGh6WF8yq20qcTb8T'
+                # self.access_key = '944440837739487232-KTdrvr4vARk7RTKvJkRPUF8I4VOvGIr'
+                # self.access_secret = 'bfHE0jC5h3B7W3H18TxV7XsofG1xuB6zeINo2DxmZ8K1W'
 
         def get_tweets(self,username):
                 auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
@@ -24,18 +24,26 @@ class TwitterFetcher:
 
                 # 200 tweets to be extracted
                 number_of_tweets=200
-                tweets = api.user_timeline(screen_name=username,count=number_of_tweets)
+                tweets = api.user_timeline(screen_name=username,count=number_of_tweets,tweet_mode="extended")
                 # Empty Array
                 tmp=[]
 
                 # create array of tweet information: username,
                 # tweet id, date/time, text
-                tweets_for_csv = [tweet.text for tweet in tweets]
+
                
 
                 # tweets_for_csv = [(tweet.text,tweet.user.screen_name,tweet.user.profile_image_url,tweet.id_str,tweet.created_at) for tweet in tweets] # CSV file created
-                for tweet in tweets_for_csv:
-                        tmp.append(tweet)
+                for tweet in tweets:
+
+                        if (hasattr(tweet, 'retweeted_status')):
+                                text = tweet.retweeted_status.full_text
+                                tmp.append(text)
+                        else:
+                                text = tweet.full_text
+                                tmp.append(text)
+
+
                 print(tmp)
 
                 return tmp
