@@ -21,26 +21,22 @@ class TwitterFetcher:
                 api = tweepy.API(auth,wait_on_rate_limit=True,wait_on_rate_limit_notify=True,compression=True)
                 # 200 tweets to be extracted
                 number_of_tweets=200
-                print("test 11")
+
                 tweets = api.user_timeline(screen_name = username,count=number_of_tweets, tweet_mode="extended")
-                print("test 12")
                 tweets_list = []
-                c=0
-                c1=0
-                c2=0
                 for tweet in tweets:
                         # print(tweet._json["lang"])
                         if(tweet._json["lang"]=="en"):
-                                print(c,hasattr(tweet, 'retweeted_status'))
-                                c+=1
+
+
                                 if(hasattr(tweet, 'retweeted_status')):
                                         if(getretweets):
-                                                c1+=1
+
                                                 text = tweet.retweeted_status.full_text
                                                 tweets_list.append(text)
                                 elif(gettweets):
-                                        c2+=1
+
                                         text = tweet.full_text
                                         tweets_list.append(text)  
-                # print("list recieved",len(tweets_list),"retweets=",c1,"tweets=",c2)
+                # print("list recieved",len(tweets_list))
                 return tweets_list

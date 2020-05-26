@@ -38,14 +38,12 @@ def checkuser():
     getTweets = request.args.get('tweets')
     print(username,getRetweets,getTweets)
     try:
-        # print("test 1")
+
         tweets_arr_fetched=twitter_fetcher.get_timeline(username,getretweets=getRetweets=="true",gettweets=getTweets=="true")
-        # print("test 2")
         if(len(tweets_arr_fetched)!=0):
                 X_test_vec_tweets = tf_idf.transform(tweets_arr_fetched)
                 
                 predictions= hate_speech_predictor.predict(X_test_vec_tweets)
-                # print(predictions)
                 person = personality(tweets_arr_fetched)
         else:
                 predictions=[]
@@ -61,118 +59,17 @@ def checkuser():
                 "hatespeechCount":str(np.sum(np.array(predictions)==1)),
                 "personality":person
         }
-        # print(res)
-        # if(getTweets=="true" and getRetweets=="false"):
-        #     print("case:- only tweets")
-        #     tweets_arr_fetched=twitter_fetcher.get_tweets_arr(username)
-        #     tweets_arr_fetched=twitter_fetcher.get_timeline(username,getretweets=)
-        #     if(len(tweets_arr_fetched)!=0):
-        #         X_test_vec_tweets = tf_idf.transform(tweets_arr_fetched)
-                
-        #         predictions= hate_speech_predictor.predict(X_test_vec_tweets)
-        #         print(predictions)
-        #         person = personality(tweets_arr_fetched)
-        #     else:
-        #         predictions=[]
-        #         person = "Insufficient tweets"
-        #     tweet_list=[]
-        #     for i in range(0,len(tweets_arr_fetched)):
-        #         tweets = {}
-        #         tweets["text"]=tweets_arr_fetched[i]
-        #         tweets["isHateSpeech"]=str(predictions[i])
-        #         tweet_list.append(tweets)
-        #     res={
-        #         "tweets":tweet_list,
-        #         "hatespeechCount":str(np.sum(np.array(predictions)==1)),
-        #         "personality":person
-        #     }
-        #     print(res)
-        # elif(getRetweets=="true" and getTweets=="false"):
-        #     print("case:- only replies")
-        #     reply_arr_fetch=[]
-        #     print("test 1")
-        #     tweets_data = twitter_fetcher.get_timeline(username,getretweets=True,gettweets=False)
-        #     print("tweet_data",tweets_data)
-        #     for tweet in tweets_data:
-        #         for reply in tweet["replies"]:
-        #             reply_arr_fetch.append(reply["text"])
-        #     print("reply_arr_fetch",reply_arr_fetch)
-        #     if(len(reply_arr_fetch)!=0):
-        #         X_test_vec_reply = tf_idf.transform(reply_arr_fetch)
-        #         predictions=hate_speech_predictor.predict(X_test_vec_reply)
-        #         print(predictions)
-        #         person = personality(reply_arr_fetch)
-        #     else:
-        #         predictions=[]
-        #         person = "Insufficient tweets"
-        #     reply_list=[]
-        #     for i in range(0,len(reply_arr_fetch)):
-        #         tweets = {}
-        #         tweets["text"]=reply_arr_fetch[i]
-        #         tweets["isHateSpeech"]=str(predictions[i])
-        #         tweet_list.append(tweets)
-        #     res={
-        #         "tweets":reply_list,
-        #         "hatespeechCount":str(np.sum(np.array(predictions)==1)),
-        #         "personality":person
-        #     }
-        # else:
-        #     tweets_arr_fetch=[]
-        #     tweets_data = twitter_fetcher.get_timeline(username)
-        #     c=0
-        #     for tweet in tweets_data:
-        #         c+=1
-        #         r=0
-        #         tweets_arr_fetch.append(tweet["text"])
-        #         for reply in tweet["replies"]:
-        #             r+=1
-        #             tweets_arr_fetch.append(reply["text"])
-        #         print(c,r)
-        #     if(len(tweets_arr_fetch)!=0):
-        #         X_test_vec_tweets = tf_idf.transform(tweets_arr_fetch)
-                
-        #         predictions= hate_speech_predictor.predict(X_test_vec_tweets)
-        #         print(predictions)
-        #         person = personality(tweets_arr_fetch)
-        #     else:
-        #         predictions=[]
-        #         person = "Insufficient tweets"
-        #     tweet_list=[]
-        #     for i in range(0,len(tweets_arr_fetch)):
-        #         tweets = {}
-        #         tweets["text"]=tweets_arr_fetch[i]
-        #         tweets["isHateSpeech"]=str(predictions[i])
-        #         tweet_list.append(tweets)
-        #     res={
-        #         "tweets":tweet_list,
-        #         "hatespeechCount":str(np.sum(np.array(predictions)==1)),
-        #         "personality": person
-        #     }
+
     except tweepy.error.TweepError:
         return {
             "tweets":[],
             "hatespeechCount":0,
             "personality": "Account doesnot exist"
         }
-
-
-
     return (jsonify(res))
 
 
-# @app.route('/tweets')
-# def tweets():
-#     username=request.args.get('username')
-#     print(twitter_fetcher.get_timeline(username))
-#     print(model.predict("Shut up!"))
-#     return "Hello"
-#
-# @app.route('/tweets')
-# def replies():
-#     username=request.args.get('username')
-#     tweetId = request.args.get('tweetId')
-#     tweetApi.get_replies(username,tweetId)
-#     return "Hello"
+
 
 if __name__ == '__main__':   
     app.run(host='127.0.0.1', port=8000, debug=True, use_reloader=False)
