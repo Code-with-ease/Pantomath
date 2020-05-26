@@ -10,7 +10,7 @@ const App = () => {
   const [formData, setFormData] = useState({
     username: "",
     tweets: false,
-    replies: false
+    retweets: false
   });
 
   function getTwitterFromData(data) {

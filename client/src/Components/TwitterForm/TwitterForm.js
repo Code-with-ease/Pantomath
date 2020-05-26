@@ -26,7 +26,7 @@ const TwitterForm = ({ submit_func }) => {
   const classes = useStyles();
   const [state, setState] = React.useState({
     tweets: true,
-    replies: false
+    retweets: false
   });
 
   console.log(state);
@@ -39,7 +39,7 @@ const TwitterForm = ({ submit_func }) => {
     var data = {};
     data["username"] = e.target[0].value;
     data["tweets"] = state.tweets;
-    data["replies"] = state.replies;
+    data["retweets"] = state.retweets;
     submit_func(data);
   }
   return (
@@ -70,13 +70,13 @@ const TwitterForm = ({ submit_func }) => {
           <FormControlLabel
             control={
               <Checkbox
-                checked={state.replies}
+                checked={state.retweets}
                 onChange={handleCheckChange}
-                name="replies"
+                name="retweets"
                 color="primary"
               />
             }
-            label="Replies"
+            label="Retweets"
           />
         </div>
         <Button

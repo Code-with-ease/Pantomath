@@ -13,105 +13,34 @@ class TwitterFetcher:
                 # self.access_key = '944440837739487232-KTdrvr4vARk7RTKvJkRPUF8I4VOvGIr'
                 # self.access_secret = 'bfHE0jC5h3B7W3H18TxV7XsofG1xuB6zeINo2DxmZ8K1W'
 
-        def get_tweets(self,username):
-                auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
-
-                # Access to user's access key and access secret
-                auth.set_access_token(self.access_key, self.access_secret)
-
-                # Calling api
-                api = tweepy.API(auth,wait_on_rate_limit=True,wait_on_rate_limit_notify=True)
-
-                # 200 tweets to be extracted
-                number_of_tweets=200
-                tweets = api.user_timeline(screen_name=username,count=number_of_tweets,tweet_mode="extended")
-                # Empty Array
-                tmp=[]
-
-                # create array of tweet information: username,
-                # tweet id, date/time, text
-
-               
-
-                # tweets_for_csv = [(tweet.text,tweet.user.screen_name,tweet.user.profile_image_url,tweet.id_str,tweet.created_at) for tweet in tweets] # CSV file created
-                for tweet in tweets:
-
-                        if (hasattr(tweet, 'retweeted_status')):
-                                text = tweet.retweeted_status.full_text
-                                tmp.append(text)
-                        else:
-                                text = tweet.full_text
-                                tmp.append(text)
-
-
-                print(tmp)
-
-                return tmp
-
-        def get_timeline(self,username):
+        def get_timeline(self,username,getretweets,gettweets):
                 auth = tweepy.OAuthHandler(self.consumer_key,self. consumer_secret)
-
                 # Access to user's access key and access secret
                 auth.set_access_token(self.access_key,self.access_secret)
-
                 # Calling api
                 api = tweepy.API(auth,wait_on_rate_limit=True,wait_on_rate_limit_notify=True,compression=True)
-
                 # 200 tweets to be extracted
                 number_of_tweets=200
-
+                print("test 11")
                 tweets = api.user_timeline(screen_name = username,count=number_of_tweets, tweet_mode="extended")
-
+                print("test 12")
                 tweets_list = []
-
+                c=0
+                c1=0
+                c2=0
                 for tweet in tweets:
-                        if(hasattr(tweet, 'retweeted_status')):
-                                text = tweet.retweeted_status.full_text
-                        else:
-                                text = tweet.full_text
-                        replies = self.get_replies(username,tweet.id)
-
-                        tweet_json={
-                                "text":text,
-                                "id_str":tweet.id_str,
-                                "in_reply_to_user_id_str":tweet.in_reply_to_user_id_str,
-                                "time":tweet.created_at,
-                                "replies":replies
-                        }
-                        tweets_list.append(tweet_json)
-                return tweets_list
-
-        def get_replies(self,username,tweetId):
-
-
-                auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
-
-                # Access to user's access key and access secret
-                auth.set_access_token(self.access_key, self.access_secret)
-
-                # Calling api
-                api = tweepy.API(auth)
-                searched_tweets = api.search(q='to:${username}',since_id=tweetId,rpp=100,count=1000, tweet_mode="extended")
-                replies=[]
-                for tweet in searched_tweets:
-                        if(tweet.in_reply_to_user_id_str==tweetId):
+                        # print(tweet._json["lang"])
+                        if(tweet._json["lang"]=="en"):
+                                print(c,hasattr(tweet, 'retweeted_status'))
+                                c+=1
                                 if(hasattr(tweet, 'retweeted_status')):
-                                        text = tweet.retweeted_status.full_text
-                                else:
+                                        if(getretweets):
+                                                c1+=1
+                                                text = tweet.retweeted_status.full_text
+                                                tweets_list.append(text)
+                                elif(gettweets):
+                                        c2+=1
                                         text = tweet.full_text
-                                tweet_json={
-                                "text":text,
-                                "id_str":tweet.id_str,
-                                "in_reply_to_user_id_str":tweet.in_reply_to_user_id_str,
-                                "time":tweet.created_at}
-                                replies.append(tweet_json)
-
-                return replies
-
-        def get_tweets_arr(self,username):
-          tweets_arr=[]
-          data=self.get_tweets(username)
-          for d in data:
-                  tweets_arr.append(d)
-          return tweets_arr
-
+                                        tweets_list.append(text)  
+                # print("list recieved",len(tweets_list),"retweets=",c1,"tweets=",c2)
+                return tweets_list

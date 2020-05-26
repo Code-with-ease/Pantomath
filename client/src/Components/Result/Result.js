@@ -31,13 +31,15 @@ const Result = ({ endpoint, data }) => {
           data.username +
           "&tweets=" +
           data.tweets +
-          "&replies=" +
-          data.replies;
+          "&retweets=" +
+          data.retweets;
         console.log(url);
         try {
           const val = await Axios.get(url);
+          console.log(val.data)
           setFetchedData(val["data"]);
         } catch (err) {
+          console.log(err)
           alert("SORRY!A problem occurred !");
         }
       } else console.log("");
