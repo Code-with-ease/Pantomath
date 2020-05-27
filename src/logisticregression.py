@@ -1,8 +1,3 @@
-import pandas as pd
-import numpy as np
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import f1_score,accuracy_score
-import pickle
 
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import nltk
@@ -40,7 +35,7 @@ class LogisticRegressionClassifier:
     ypred = self.modelLR.predict(X_test_vec)
     return ypred
   def score(self,Y_pred,Y):
-    result = accuracy_score(Y_test,Y)
+    result = accuracy_score(Y_pred,Y)
     return result*100 
 class CountVectorizerNGram:
   def __init__(self,start,end):
