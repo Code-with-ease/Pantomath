@@ -21,9 +21,9 @@ class LogisticRegressionClassifier:
   # model_cv = CountVectorizerNGram()
   # def __init(self,ngram_start=1,ngram_end=1):
   #   # model_cv = CountVectorizerNGram(ngram_start,ngram_end)
-  modelLR = LogisticRegression(penalty="none")
+  modelLR = LogisticRegression(C=0.1,penalty="l2")
   def __init__(self):
-    self.modelLR = LogisticRegression(penalty="none")
+    self.modelLR = LogisticRegression(C=0.1,penalty="l2")
   def train(self,X_train_vec,Y_train):
     # X = pd.DataFrame(data={'posts': X_train})
     # print(X)
